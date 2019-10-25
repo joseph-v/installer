@@ -42,7 +42,7 @@ image_tag: v0.6.1
 ansible_os_family: Debian
 
 # delete all source packages
-source_purge: false
+source_purge: true
 
 # delete database
 database_purge: true

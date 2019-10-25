@@ -25,12 +25,13 @@
   user:
     name: "{{ item }}"
     shell: /bin/false
-    create_home: no
+    createhome: no
   with_items:
       - prometheus
       - node_exporter
       - pushgateway
       - alertmanager
+      - grafana
   become: yes
 
 - name: create telemetry directories
