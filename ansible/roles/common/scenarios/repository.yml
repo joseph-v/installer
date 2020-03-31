@@ -23,31 +23,75 @@
     - /bin/false
   when: go_path == ""
 
-- name: check for hotpot source code existed
+# Build SODA API Server 
+- name: check for SODA apiserver source code existed
   stat:
-    path: "{{ go_path }}/src/github.com/opensds/opensds"
-  register: hotpotexisted
+    path: "{{ go_path }}/src/github.com/sodafoundation/soda-apiserver"
+  register: apiserverexisted
 
-- name: download hotpot source code if not exists
+- name: download SODA apiserver source code if not exists
   git:
-    repo: "{{ hotpot_remote_url }}"
-    dest: "{{ go_path }}/src/github.com/opensds/opensds"
+    repo: "{{ apiserver_remote_url }}"
+    dest: "{{ go_path }}/src/github.com/sodafoundation/soda-apiserver"
     version: "{{ hotpot_repo_branch }}"
-  when: hotpotexisted.stat.exists is undefined or hotpotexisted.stat.exists == false
+  when: apiserverexisted.stat.exists is undefined or apiserverexisted.stat.exists == false
 
-- name: build hotpot binary file
+- name: build SODA apiserver binary file
   shell: make
   environment:
     GOPATH: "{{ go_path }}"
   args:
-    chdir: "{{ go_path }}/src/github.com/opensds/opensds"
+    chdir: "{{ go_path }}/src/github.com/sodafoundation/soda-apiserver"
 
+# Build SODA Controller 
+- name: check for SODA controller source code existed
+  stat:
+    path: "{{ go_path }}/src/github.com/sodafoundation/soda-controller"
+  register: controllerexisted
+
+- name: download SODA controller source code if not exists
+  git:
+    repo: "{{ controller_remote_url }}"
+    dest: "{{ go_path }}/src/github.com/sodafoundation/soda-controller"
+    version: "{{ hotpot_repo_branch }}"
+  when: controllerexisted.stat.exists is undefined or controllerexisted.stat.exists == false
+
+- name: build SODA controller binary file
+  shell: make
+  environment:
+    GOPATH: "{{ go_path }}"
+  args:
+    chdir: "{{ go_path }}/src/github.com/sodafoundation/soda-controller"
+
+# Build SODA Dock 
+- name: check for SODA dock source code existed
+  stat:
+    path: "{{ go_path }}/src/github.com/sodafoundation/soda-dock"
+  register: dockexisted
+
+- name: download  SODA dock source code if not exists
+  git:
+    repo: "{{ dock_remote_url }}"
+    dest: "{{ go_path }}/src/github.com/sodafoundation/soda-dock"
+    # version: "{{ hotpot_repo_branch }}"
+    version: "soda-dock-grpc"
+  when: dockexisted.stat.exists is undefined or dockexisted.stat.exists == false
+
+- name: build  SODA dock binary file
+  shell: make
+  environment:
+    GOPATH: "{{ go_path }}"
+  args:
+    chdir: "{{ go_path }}/src/github.com/sodafoundation/soda-dock"
+#---
 - name: copy hotpot binary and openapi files into hotpot work directory
   copy:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
   with_items:
-    - { src: "{{ go_path }}/src/github.com/opensds/opensds/build/out/", dest: "{{ hotpot_work_dir }}" }
+    - { src: "{{ go_path }}/src/github.com/sodafoundation/soda-apiserver/build/out/", dest: "{{ hotpot_work_dir }}" }
+    - { src: "{{ go_path }}/src/github.com/sodafoundation/soda-controller/build/out/", dest: "{{ hotpot_work_dir }}" }
+    - { src: "{{ go_path }}/src/github.com/sodafoundation/soda-dock/build/out/", dest: "{{ hotpot_work_dir }}" }
     - { src: "{{ go_path }}/src/github.com/opensds/opensds/openapi-spec/", dest: "{{ hotpot_work_dir }}" }
 
 - name: change the permissions of hotpot executable files

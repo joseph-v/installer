@@ -27,7 +27,7 @@ controller_endpoint: "{{ host_ip }}:50049"
 
 
 # These fields are NOT suggested to be modified
-hotpot_work_dir: /opt/opensds-hotpot-linux-amd64
+hotpot_work_dir: /opt/opensds-separated-linux-amd64
 opensds_config_dir: /etc/opensds
 opensds_driver_config_dir: "{{ opensds_config_dir }}/driver"
 opensds_log_dir: /var/log/opensds
@@ -45,7 +45,9 @@ dock_log_file: "{{ opensds_log_dir }}/osdsdock.log"
 hotpot_repo_branch: "{{ repo_branch }}"
 
 # These fields are NOT suggested to be modified
-hotpot_remote_url: https://github.com/opensds/opensds.git
+apiserver_remote_url: https://github.com/PravinRanjan10/soda-apiserver.git
+controller_remote_url: https://github.com/PravinRanjan10/soda-controller.git
+dock_remote_url: https://github.com/PravinRanjan10/him-dock.git
 
 
 ###########
