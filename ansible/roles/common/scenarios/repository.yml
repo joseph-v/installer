@@ -74,7 +74,7 @@
     repo: "{{ dock_remote_url }}"
     dest: "{{ go_path }}/src/github.com/sodafoundation/soda-dock"
     # version: "{{ hotpot_repo_branch }}"
-    version: "soda-dock-grpc"
+    version: "soda-dock-telemetry"
   when: dockexisted.stat.exists is undefined or dockexisted.stat.exists == false
 
 - name: build  SODA dock binary file

@@ -47,7 +47,7 @@ hotpot_repo_branch: "{{ repo_branch }}"
 # These fields are NOT suggested to be modified
 apiserver_remote_url: https://github.com/PravinRanjan10/soda-apiserver.git
 controller_remote_url: https://github.com/PravinRanjan10/soda-controller.git
-dock_remote_url: https://github.com/PravinRanjan10/him-dock.git
+dock_remote_url: https://github.com/PravinRanjan10/joe-dock.git
 
 
 ###########
